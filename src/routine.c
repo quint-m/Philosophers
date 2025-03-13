@@ -26,7 +26,10 @@ void	p_eat(t_philosopher *philo)
 	info(philo, "has taken a fork");
 	pthread_mutex_lock(philo->r_fork);
 	info(philo, "is eating");
+	pthread_mutex_lock(philo->eat_mutex);
 	philo->state = EATING;
+	philo->meal_count++;
+	pthread_mutex_unlock(philo->eat_mutex);
 	usleep(philo->tte);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);

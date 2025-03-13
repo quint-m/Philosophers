@@ -24,6 +24,7 @@ int	main(int argc, char **argv)
 	program_create(argv, &program);
 	forks_create(forks, &program);
 	philos_create(philos, forks, &program);
+	program.philosophers = philos;
 	threads_create(philos, &program);
 	threads_start(philos, &program);
 	forks_destroy(forks, &program);

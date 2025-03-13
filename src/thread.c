@@ -35,11 +35,11 @@ void	threads_start(t_philosopher *philos, t_program *program)
 {
 	int	i;
 
-	pthread_join((*program).thread, NULL);
 	i = 0;
 	while (i < program->num_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
+	pthread_join((*program).thread, NULL);
 }

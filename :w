@@ -19,12 +19,10 @@ void	*program_monitor(void *param)
 	program = (t_program *)param;
 	while (1)
 	{
-		if (philosopher_count_meals(program) == 1)
-		{
-			exit(0);
-			break;
-		}
+		if (program->eat_count > 0 && philosopher_count_meals(program) == 1)
+			break ;
 	}
+	printf("DONEEE\n\n\n\n");
 	return (0);
 }
 

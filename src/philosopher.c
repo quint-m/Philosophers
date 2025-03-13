@@ -22,6 +22,8 @@ void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *pro
 		philos[i].p_num = i;
 		philos[i].num_philos = program->num_philos;
 		philos[i].log_mutex = &program->log_mutex;
+		philos[i].eat_mutex = &program->eat_mutex;
+		philos[i].meal_count = 0;
 		philos[i].start = get_time();
 		philos[i].tte = program->time_to_eat * 1000;
 		philos[i].ttd = program->time_to_die * 1000;
@@ -49,4 +51,25 @@ void	*philosopher_routine(void *param)
 		p_think(philo);
 	}
 	return (0);
+}
+
+int	philosopher_count_meals(t_program *program)
+{
+	int	i;
+
+	i = 0;
+	if (program->eat_count < 0)
+		return (0);
+	while (i < program->num_philos)
+	{
+		pthread_mutex_lock(program->philosophers[i].eat_mutex);
+		if (! (program->philosophers[i].meal_count >= 7))
+		{
+			pthread_mutex_unlock(&(program->eat_mutex));
+			break ;
+		}
+		pthread_mutex_unlock(program->philosophers[i].eat_mutex);
+		i++;
+	}
+	return (i == program->num_philos);
 }
