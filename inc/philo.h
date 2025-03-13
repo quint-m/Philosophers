@@ -32,7 +32,7 @@ typedef struct s_philosopher
 	int				num_philos;
 	t_state			state;
 	int				start;
-	int				last_eat;
+	int				meal_num;
 	int				ttd;
 	int				tte;
 	int				tts;
@@ -45,13 +45,15 @@ typedef struct s_philosopher
 
 typedef struct s_program
 {
-	int	num_philos;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	time_to_die;
+	int				num_philos;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				time_to_die;
+	pthread_t		thread;
 	pthread_mutex_t	log_mutex;
 }	t_program;
 
+void	*program_monitor(void *param);
 void	forks_create(pthread_mutex_t *forks, t_program *program);
 void	forks_destroy(pthread_mutex_t *forks, t_program *program);
 void	program_create(char **args, t_program *program);

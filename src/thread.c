@@ -23,19 +23,21 @@ void	threads_create(t_philosopher *philos, t_program *program)
 		t_result = pthread_create(&(philos[i].thread), NULL, philosopher_routine, (void *)&philos[i]);
 		if (t_result != 0)
 		{
-			//TODO: Handle
-			printf("ERROR\n");
+			//TODO: Check
+			printf("Failed initializing philo threads\n");
 		}
 		i++;
 	}
+	pthread_create(&((*program).thread), NULL, program_monitor, program);
 }
 
 void	threads_start(t_philosopher *philos, t_program *program)
 {
 	int	i;
 
+	pthread_join((*program).thread, NULL);
 	i = 0;
-	while (i < philos[0].num_philos)
+	while (i < program->num_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
 		i++;

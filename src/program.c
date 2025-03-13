@@ -11,7 +11,18 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
+
+void	*program_monitor(void *param)
+{
+	t_program	*program;
+
+	program = (t_program *)param;
+	while (1)
+	{
+		
+	}
+	return (0);
+}
 
 void	program_create(char **args, t_program *program)
 {
