@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
+/*   Updated: 2025/03/13 18:32:12 by qmennen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILO_H
+# define PHILO_H
+# define MAX_PHILO 200
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <sys/time.h>
+
+typedef	enum s_state
+{
+	EATING,
+	SLEEPING,
+	THINKING
+}	t_state;
+
+typedef struct s_philosopher
+{
+	int				p_num;
+	int				num_philos;
+	t_state			state;
+	int				start;
+	int				last_eat;
+	int				ttd;
+	int				tte;
+	int				tts;
+	pthread_t		thread;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*log_mutex;
+	pthread_mutex_t	*eat_mutex;
+}	t_philosopher;
+
+typedef struct s_program
+{
+	int	num_philos;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	time_to_die;
+	pthread_mutex_t	log_mutex;
+}	t_program;
+
+void	forks_create(pthread_mutex_t *forks, t_program *program);
+void	forks_destroy(pthread_mutex_t *forks, t_program *program);
+void	program_create(char **args, t_program *program);
+void	program_destroy(t_program *program);
+void	threads_create(t_philosopher *philos, t_program *program);
+void	threads_start(t_philosopher *philos, t_program *program);
+int		validate_input(int argc, char **argv);
+/**
+ *
+ * Philosopher
+ */
+void	p_sleep(t_philosopher *philo);
+void	p_think(t_philosopher *philo);
+void	p_eat(t_philosopher *philo);
+void	*philosopher_routine(void *param);
+int		philosopher_is_dead(t_philosopher *philos, t_program *program);
+void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *program);
+/**
+ *
+ * Utility
+ */
+long 	ft_atol(char *s);
+int		get_time();
+void	info(t_philosopher *philo, char *msg);
+#endif
