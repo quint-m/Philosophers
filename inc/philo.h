@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 18:09:23 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:36:50 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,18 @@ typedef struct s_philosopher
 	int				p_num;
 	int				num_philos;
 	t_state			state;
-	int				start;
+	int				start_time;
 	int				meal_count;
 	int				ttd;
 	int				tte;
 	int				tts;
+	int				*is_dead;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*log_mutex;
 	pthread_mutex_t	*eat_mutex;
+	pthread_mutex_t	*dead_mutex;
 }	t_philosopher;
 
 typedef struct s_program
@@ -50,10 +52,12 @@ typedef struct s_program
 	int				time_to_sleep;
 	int				time_to_die;
 	int				meal_count;
+	int				died;
 	t_philosopher	*philosophers;
 	pthread_t		thread;
 	pthread_mutex_t	log_mutex;
 	pthread_mutex_t	eat_mutex;
+	pthread_mutex_t	dead_mutex;
 }	t_program;
 
 void	*program_monitor(void *param);

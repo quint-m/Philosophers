@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:31:27 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 15:10:45 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:27:41 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void	info(t_philosopher *philo, char *msg)
 
 	pthread_mutex_lock(philo->log_mutex);
 	time = get_time();
-	printf("%i %i %s\n", (time - philo->start), philo->p_num, msg);
+	printf("%i %i %s\n", (time - philo->start_time), philo->p_num, msg);
 	pthread_mutex_unlock(philo->log_mutex);
 }
