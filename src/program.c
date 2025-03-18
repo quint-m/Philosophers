@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:56:37 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/13 18:32:46 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:08:58 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	program_create(char **args, t_program *program)
 	program->time_to_eat = ft_atol(args[3]);
 	program->time_to_sleep = ft_atol(args[4]);
 	if (args[5])
-		program->eat_count = ft_atol(args[5]);
+		program->meal_count = ft_atol(args[5]);
 	else
-		program->eat_count = -1;
+		program->meal_count = -1;
 
 	pthread_mutex_init(&(program->log_mutex), NULL);
 	pthread_mutex_init(&(program->eat_mutex), NULL);

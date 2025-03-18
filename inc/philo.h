@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/13 18:32:12 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:09:23 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_program
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				time_to_die;
-	int				eat_count;
+	int				meal_count;
 	t_philosopher	*philosophers;
 	pthread_t		thread;
 	pthread_mutex_t	log_mutex;

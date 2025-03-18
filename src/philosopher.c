@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:28:19 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/13 18:43:30 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:08:54 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	*philosopher_routine(void *param)
 	t_philosopher *philo;
 
 	philo = (t_philosopher*) param;
+	// Sync the start by creating a mutex on the program (start_mutex)
+	// Now before we enter routine, we lock and unlock this mutex (which wo't be possible because the program has locked it and only unlocks it when all threads have joined)
 	if (philo->p_num % 2 == 0)
 		usleep(1);
 	while (1)
@@ -55,21 +57,22 @@ void	*philosopher_routine(void *param)
 
 int	philosopher_count_meals(t_program *program)
 {
-	int	i;
+	int				i;
+	int				meal_count;
+	t_philosopher	*philo;
 
 	i = 0;
-	if (program->eat_count < 0)
+	meal_count = 0;
+	if (program->meal_count < 0)
 		return (0);
-	while (i < program->num_philos)
+	philo = &(program->philosophers[0]);
+	while (i < program->num_philos - 1)
 	{
 		pthread_mutex_lock(program->philosophers[i].eat_mutex);
-		if (! (program->philosophers[i].meal_count >= 7))
-		{
-			pthread_mutex_unlock(&(program->eat_mutex));
-			break ;
-		}
-		pthread_mutex_unlock(program->philosophers[i].eat_mutex);
+		if (program->philosophers[i].meal_count <= philo->meal_count)
+			philo = &(program->philosophers[i]);		
 		i++;
+		pthread_mutex_unlock(&(program->eat_mutex));
 	}
-	return (i == program->num_philos);
+	return (philo->meal_count >= program->meal_count);
 }
