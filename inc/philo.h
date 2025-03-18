@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 18:36:50 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:49:17 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philosopher
 	int				num_philos;
 	t_state			state;
 	int				start_time;
+	int				last_meal;
 	int				meal_count;
 	int				ttd;
 	int				tte;
@@ -79,6 +80,7 @@ void	*philosopher_routine(void *param);
 int		philosopher_is_dead(t_philosopher *philos, t_program *program);
 void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *program);
 int		philosopher_count_meals(t_program *program);
+int		philosopher_has_starved(t_program *program);
 /**
  *
  * Utility

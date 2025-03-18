@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:28:19 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 18:41:22 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:15:13 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *pro
 		philos[i].dead_mutex = &(program->dead_mutex);
 		philos[i].meal_count = 0;
 		philos[i].start_time = get_time();
+		philos[i].last_meal = philos[i].start_time;
 		philos[i].tte = program->time_to_eat * 1000;
 		philos[i].ttd = program->time_to_die * 1000;
 		philos[i].tts = program->time_to_sleep * 1000;
@@ -80,7 +81,7 @@ int	philosopher_count_meals(t_program *program)
 	if (program->meal_count < 0)
 		return (0);
 	philo = &(program->philosophers[0]);
-	while (i < program->num_philos - 1)
+	while (i < program->num_philos)
 	{
 		pthread_mutex_lock(program->philosophers[i].eat_mutex);
 		if (program->philosophers[i].meal_count < philo->meal_count)
@@ -95,4 +96,34 @@ int	philosopher_count_meals(t_program *program)
 		pthread_mutex_unlock(&(program->dead_mutex));
 	}
 	return (philo->meal_count >= program->meal_count);
+}
+
+int	philosopher_has_starved(t_program *program)
+{
+	int				i;
+	int				time;
+	int				diff;
+	t_philosopher	philo;
+
+	i = 0;
+	diff = 0;
+	while (i < program->num_philos)
+	{
+		philo = program->philosophers[i];
+		time = get_time();
+		pthread_mutex_lock(philo.eat_mutex);
+		diff = time - philo.last_meal;
+		if (diff > program->time_to_die && philo.state != EATING)
+		{
+			pthread_mutex_unlock(philo.eat_mutex);
+			info(&philo, "died");
+			pthread_mutex_lock(program->philosophers[0].dead_mutex);
+			program->died = 1;
+			pthread_mutex_unlock(program->philosophers[0].dead_mutex);
+			return (1);
+		}
+		pthread_mutex_unlock(philo.eat_mutex);
+		i++;
+	}
+	return (0);
 }

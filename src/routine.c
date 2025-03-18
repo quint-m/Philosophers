@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 18:04:57 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 17:57:58 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:44:54 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	p_eat(t_philosopher *philo)
 	pthread_mutex_lock(philo->eat_mutex);
 	philo->state = EATING;
 	philo->meal_count++;
+	philo->last_meal = get_time();
 	pthread_mutex_unlock(philo->eat_mutex);
 	usleep(philo->tte);
 	pthread_mutex_unlock(philo->l_fork);

@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:56:37 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 18:37:25 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:04:37 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*program_monitor(void *param)
 	program = (t_program *)param;
 	while (1)
 	{
-		if (philosopher_count_meals(program) == 1)
+		if (philosopher_has_starved(program) || philosopher_count_meals(program))
 			break;
 	}
 	return (0);
