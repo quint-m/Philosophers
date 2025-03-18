@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:31:27 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/13 18:30:24 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 15:10:45 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	get_time()
 		//TODO:Handle it
 		printf("ERROR\n");
 	}
-	return (tv.tv_sec * 1000);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 void	info(t_philosopher *philo, char *msg)
