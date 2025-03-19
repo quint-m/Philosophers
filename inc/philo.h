@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 19:55:08 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:24:02 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ int		philosopher_has_starved(t_program *program);
 long 	ft_atol(char *s);
 int		get_time();
 void	info(t_philosopher *philo, char *msg);
+int		acc_usleep(size_t milliseconds);
 #endif

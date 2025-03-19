@@ -18,6 +18,7 @@ void	threads_create(t_philosopher *philos, t_program *program)
 	int	t_result;
 
 	i = 0;
+	pthread_mutex_lock(&(program->sync_mutex));
 	while (i < program->num_philos)
 	{
 		t_result = pthread_create(&(philos[i].thread), NULL, philosopher_routine, (void *)&philos[i]);
@@ -29,6 +30,7 @@ void	threads_create(t_philosopher *philos, t_program *program)
 		i++;
 	}
 	pthread_create(&((*program).thread), NULL, program_monitor, program);
+	pthread_mutex_unlock(&(program->sync_mutex));
 }
 
 void	threads_start(t_philosopher *philos, t_program *program)
@@ -36,12 +38,10 @@ void	threads_start(t_philosopher *philos, t_program *program)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&(program->sync_mutex));
 	while (i < program->num_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
-	pthread_mutex_unlock(&(program->sync_mutex));
 	pthread_join((*program).thread, NULL);
 }
