@@ -77,7 +77,7 @@ void	p_sleep(t_philosopher *philo);
 void	p_think(t_philosopher *philo);
 void	p_eat(t_philosopher *philo);
 void	*philosopher_routine(void *param);
-int		philosopher_is_dead(t_philosopher *philos, t_program *program);
+int		philosopher_check_dead(t_philosopher *philo);
 void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *program);
 int		philosopher_count_meals(t_program *program);
 int		philosopher_has_starved(t_program *program);

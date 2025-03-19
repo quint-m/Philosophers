@@ -74,6 +74,7 @@ void	info(t_philosopher *philo, char *msg)
 
 	pthread_mutex_lock(philo->log_mutex);
 	time = get_time();
-	printf("%i %i %s\n", (time - philo->start_time), philo->p_num, msg);
+	if (!philosopher_check_dead(philo))
+		printf("%i %i %s\n", (time - philo->start_time), philo->p_num, msg);
 	pthread_mutex_unlock(philo->log_mutex);
 }
