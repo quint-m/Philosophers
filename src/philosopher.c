@@ -25,6 +25,7 @@ void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *pro
 		philos[i].log_mutex = &(program->log_mutex);
 		philos[i].eat_mutex = &(program->eat_mutex);
 		philos[i].dead_mutex = &(program->dead_mutex);
+		philos[i].sync_mutex = &(program->sync_mutex);
 		philos[i].meal_count = 0;
 		philos[i].start_time = get_time();
 		philos[i].last_meal = philos[i].start_time;
@@ -32,10 +33,13 @@ void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *pro
 		philos[i].ttd = program->time_to_die * 1000;
 		philos[i].tts = program->time_to_sleep * 1000;
 		philos[i].l_fork = &forks[i];
+		philos[i].program = program;
 		if (i > 0)
 			philos[i].r_fork = &forks[i - 1];
 		else
 			philos[i].r_fork = &forks[program->num_philos - i];
+		if (program->num_philos == 1)
+			philos[i].r_fork = NULL;
 		i++;
 	}
 }
@@ -59,8 +63,10 @@ void	*philosopher_routine(void *param)
 	philo = (t_philosopher*) param;
 	// Sync the start by creating a mutex on the program (start_mutex)
 	// Now before we enter routine, we lock and unlock this mutex (which wo't be possible because the program has locked it and only unlocks it when all threads have joined)
-	if (philo->p_num % 2 == 0)
-		usleep(1);
+	//if (philo->p_num % 2 == 0)
+		//usleep(1);
+	pthread_mutex_lock(philo->sync_mutex);
+	pthread_mutex_unlock(philo->sync_mutex);
 	while (!philosopher_check_dead(philo))
 	{
 		p_eat(philo);
@@ -112,7 +118,7 @@ int	philosopher_has_starved(t_program *program)
 		philo = program->philosophers[i];
 		pthread_mutex_lock(philo.eat_mutex);
 		diff = get_time() - philo.last_meal;
-		if (diff >= philo.ttd && philo.state != EATING)
+		if (diff >= program->time_to_die && philo.state != EATING)
 		{
 			pthread_mutex_unlock(philo.eat_mutex);
 			info(&philo, "died");

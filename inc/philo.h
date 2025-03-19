@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 18:49:17 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:55:08 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_philosopher
 	pthread_mutex_t	*log_mutex;
 	pthread_mutex_t	*eat_mutex;
 	pthread_mutex_t	*dead_mutex;
+	pthread_mutex_t	*sync_mutex;
+	struct s_program	*program;
 }	t_philosopher;
 
 typedef struct s_program
@@ -59,6 +61,7 @@ typedef struct s_program
 	pthread_mutex_t	log_mutex;
 	pthread_mutex_t	eat_mutex;
 	pthread_mutex_t	dead_mutex;
+	pthread_mutex_t	sync_mutex;	
 }	t_program;
 
 void	*program_monitor(void *param);

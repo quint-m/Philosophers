@@ -36,10 +36,12 @@ void	threads_start(t_philosopher *philos, t_program *program)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&(program->sync_mutex));
 	while (i < program->num_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
+	pthread_mutex_unlock(&(program->sync_mutex));
 	pthread_join((*program).thread, NULL);
 }

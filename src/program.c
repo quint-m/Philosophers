@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:56:37 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 19:04:37 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:54:57 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	*program_monitor(void *param)
 	t_program	*program;
 
 	program = (t_program *)param;
+	pthread_mutex_unlock(&(program->sync_mutex));
 	while (1)
 	{
 		if (philosopher_has_starved(program) || philosopher_count_meals(program))
@@ -40,6 +41,7 @@ void	program_create(char **args, t_program *program)
 	pthread_mutex_init(&(program->log_mutex), NULL);
 	pthread_mutex_init(&(program->eat_mutex), NULL);
 	pthread_mutex_init(&(program->dead_mutex), NULL);
+	pthread_mutex_init(&(program->sync_mutex), NULL);
 }
 
 void	program_destroy(t_program *program)
@@ -47,4 +49,5 @@ void	program_destroy(t_program *program)
 	pthread_mutex_destroy(&(program->log_mutex));
 	pthread_mutex_destroy(&(program->eat_mutex));
 	pthread_mutex_destroy(&(program->dead_mutex));
+	pthread_mutex_destroy(&(program->sync_mutex));
 }

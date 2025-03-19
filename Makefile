@@ -15,7 +15,7 @@ NAME=philo
 
 CC=cc
 # FLAGS=-Wall -Wextra -Werror -Wundef -fsanitize=address
-FLAGS=-Werror -fsanitize=address
+FLAGS=-Werror
 
 INC=./inc
 SRCS=main.c philosopher.c util.c thread.c fork.c program.c routine.c
@@ -35,4 +35,6 @@ clean:
 fclean: clean
 	@rm $(OBJS)
 
-.PHONY: all clean fclean
+re: fclean all
+
+.PHONY: all clean fclean re
