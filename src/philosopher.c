@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:28:19 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 19:24:33 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:50:22 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	philosopher_check_dead(t_philosopher *philo)
 	if (*(philo->is_dead))
 	{
 		pthread_mutex_unlock(philo->dead_mutex);
-		return (1);		
+		return (1);
 	}
 	pthread_mutex_unlock(philo->dead_mutex);
 	return (0);	
@@ -101,19 +101,18 @@ int	philosopher_count_meals(t_program *program)
 int	philosopher_has_starved(t_program *program)
 {
 	int				i;
-	int				time;
 	int				diff;
 	t_philosopher	philo;
 
 	i = 0;
 	diff = 0;
+
 	while (i < program->num_philos)
 	{
 		philo = program->philosophers[i];
-		time = get_time();
 		pthread_mutex_lock(philo.eat_mutex);
-		diff = time - philo.last_meal;
-		if (diff >= program->time_to_die && philo.state != EATING)
+		diff = get_time() - philo.last_meal;
+		if (diff >= philo.ttd && philo.state != EATING)
 		{
 			pthread_mutex_unlock(philo.eat_mutex);
 			info(&philo, "died");
