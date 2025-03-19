@@ -13,6 +13,20 @@
 #include "philo.h"
 #include <pthread.h>
 
+static int	pick_fork(t_philosopher *philo)
+{
+	if (philo->p_num % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->l_fork);
+		return (1);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->r_fork);
+		return (-1);
+	}
+}
+
 void	p_sleep(t_philosopher *philo)
 {
 	philo->state = SLEEPING;
@@ -22,10 +36,14 @@ void	p_sleep(t_philosopher *philo)
 
 void	p_eat(t_philosopher *philo)
 {
+	int	side;
 	// Make sure we prevent deadlock by not always taking right fork first
-	pthread_mutex_lock(philo->l_fork);
+	side = pick_fork(philo);
 	info(philo, "has taken a fork");
-	pthread_mutex_lock(philo->r_fork);
+	if (side > 0)
+		pthread_mutex_lock(philo->r_fork);
+	else
+		pthread_mutex_lock(philo->l_fork);
 	philo->state = EATING;
 	info(philo, "is eating");
 	pthread_mutex_lock(philo->eat_mutex);
