@@ -6,7 +6,7 @@
 #    By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/13 15:13:28 by qmennen           #+#    #+#              #
-#    Updated: 2025/03/13 18:16:43 by qmennen          ###   ########.fr        #
+#    Updated: 2025/03/19 14:03:25 by qmennen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME=philo
 
 CC=cc
 # FLAGS=-Wall -Wextra -Werror -Wundef -fsanitize=address
-FLAGS=-Werror
+FLAGS=-Werror -g
 
 INC=./inc
 SRCS=main.c philosopher.c util.c thread.c fork.c program.c routine.c
@@ -30,10 +30,10 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -I$(INC) -c $<
 
 clean:
-	@rm $(NAME)
+	@rm -f $(OBJS)
 
 fclean: clean
-	@rm $(OBJS)
+	@rm -f $(NAME)
 
 re: fclean all
 

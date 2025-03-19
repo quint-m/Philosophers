@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:31:27 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 18:27:41 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:30:38 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ long	ft_atol(char *s)
 	return (result);
 }
 
+/**
+ * Get time in milliseconds
+ */
 int	get_time()
 {
 	struct timeval tv;
@@ -77,4 +80,17 @@ void	info(t_philosopher *philo, char *msg)
 	if (!philosopher_check_dead(philo))
 		printf("%i %i %s\n", (time - philo->start_time), philo->p_num, msg);
 	pthread_mutex_unlock(philo->log_mutex);
+}
+
+/**
+ * Sleep for u_sec milliseconds
+ */
+int	acc_usleep(size_t m_sec)
+{
+	size_t	start;
+
+	start = get_time();
+	while ((get_time() - start) < m_sec)
+		usleep(250);
+	return (0);
 }

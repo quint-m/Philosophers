@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 18:04:57 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/18 19:24:58 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:34:02 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 void	p_sleep(t_philosopher *philo)
 {
-	philo->state = SLEEPING;
 	info(philo, "is sleeping");
-	usleep(philo->tts);
+	acc_usleep(philo->tts);
 }
 
 void	p_eat(t_philosopher *philo)
@@ -25,26 +24,34 @@ void	p_eat(t_philosopher *philo)
 	int	side;
 	if (philo->r_fork == NULL || philo->l_fork == NULL)
 	{
-		usleep(philo->ttd);
+		acc_usleep(philo->ttd);
 		return ;
 	}
 	// Make sure we prevent deadlock by not always taking right fork first
-	pthread_mutex_lock(philo->r_fork);
-	info(philo, "has taken a fork");
-	pthread_mutex_lock(philo->l_fork);
-	philo->state = EATING;
+	if (philo->p_num % 2 == 0)
+	{
+		pthread_mutex_lock(philo->r_fork);
+		info(philo, "has taken a fork");
+		pthread_mutex_lock(philo->l_fork);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->l_fork);
+		info(philo, "has taken a fork");
+		pthread_mutex_lock(philo->r_fork);
+	}
 	info(philo, "is eating");
 	pthread_mutex_lock(philo->eat_mutex);
 	philo->last_meal = get_time();
 	philo->meal_count++;
 	pthread_mutex_unlock(philo->eat_mutex);
-	usleep(philo->tte);
+	acc_usleep(philo->tte);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
 
 void	p_think(t_philosopher *philo)
 {
-	philo->state = THINKING;
 	info(philo, "is thinking");
+	acc_usleep((philo->ttd - philo->tte - philo->tts) / 5);
 }
