@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:28:19 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/19 14:33:12 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:27:00 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,12 @@ int	philosopher_has_starved(t_program *program)
 		diff = get_time() - philo.last_meal;
 		if (diff >= program->time_to_die)
 		{
-			pthread_mutex_unlock(philo.eat_mutex);
-			info(&philo, "died");
-			pthread_mutex_lock(&program->dead_mutex);
-			program->died = 1;
-			pthread_mutex_unlock(&program->dead_mutex);
+            info(&philo, "died");
+            pthread_mutex_lock(&program->dead_mutex);
+            *philo.is_dead = 1;
+            pthread_mutex_unlock(&program->dead_mutex);
+            pthread_mutex_unlock(&program->eat_mutex); // Unlock the program's eat_mutex before returning
+            return (1);
 			return (1);
 		}
 		i++;

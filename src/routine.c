@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 18:04:57 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/19 14:34:02 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/25 17:32:15 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	p_eat(t_philosopher *philo)
 
 void	p_think(t_philosopher *philo)
 {
+	if (philosopher_check_dead(philo))
+		return ;
 	info(philo, "is thinking");
 	acc_usleep((philo->ttd - philo->tte - philo->tts) / 5);
 }
