@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:28:19 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/26 16:04:48 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:21:34 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,14 @@ int	philosopher_check_dead(t_philosopher *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(philo->dead_mutex);
-	return (0);	
+	return (0);
 }
 
 void	*philosopher_routine(void *param)
 {
-	t_philosopher *philo;
+	t_philosopher	*philo;
 
-	philo = (t_philosopher*) param;
-	// Sync the start by creating a mutex on the program (start_mutex)
-	// Now before we enter routine, we lock and unlock this mutex (which wo't be possible because the program has locked it and only unlocks it when all threads have joined)
+	philo = (t_philosopher *) param;
 	pthread_mutex_lock(philo->log_mutex);
 	philo->start_time = get_time();
 	pthread_mutex_unlock(philo->log_mutex);
@@ -94,7 +92,6 @@ int	philosopher_count_meals(t_program *program)
 		if (program->philosophers[i].meal_count < philo->meal_count)
 			philo = &(program->philosophers[i]);
 		i++;
-		
 	}
 	if (philo->meal_count >= program->meal_count)
 	{
@@ -116,16 +113,15 @@ int	philosopher_has_starved(t_program *program)
 	diff = 0;
 	while (i < program->num_philos)
 	{
-		// philo = program->philosophers[i];
 		pthread_mutex_lock(&program->eat_mutex);
 		diff = get_time() - program->philosophers[i].last_meal;
-		pthread_mutex_unlock(&program->eat_mutex); // Unlock the program's eat_mutex before returning
+		pthread_mutex_unlock(&program->eat_mutex);
 		if (diff >= program->time_to_die)
 		{
-            info(&program->philosophers[i], "died");
-            pthread_mutex_lock(&program->dead_mutex);
-            *(program->philosophers[i].is_dead) = 1;
-            pthread_mutex_unlock(&program->dead_mutex);
+			info(&program->philosophers[i], "died");
+			pthread_mutex_lock(&program->dead_mutex);
+			*(program->philosophers[i].is_dead) = 1;
+			pthread_mutex_unlock(&program->dead_mutex);
 			return (1);
 		}
 		i++;
