@@ -6,11 +6,11 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:22:43 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/19 15:06:13 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:43:16 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 void	threads_create(t_philosopher *philos, t_program *program)
 {
@@ -21,10 +21,10 @@ void	threads_create(t_philosopher *philos, t_program *program)
 	pthread_mutex_lock(&(program->sync_mutex));
 	while (i < program->num_philos)
 	{
-		t_result = pthread_create(&(philos[i].thread), NULL, philosopher_routine, (void *)&philos[i]);
+		t_result = pthread_create(&(philos[i].thread), NULL,
+				philosopher_routine, (void *)&philos[i]);
 		if (t_result != 0)
 		{
-			//TODO: Check
 			printf("Failed initializing philo threads\n");
 		}
 		i++;
