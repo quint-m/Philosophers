@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:20:22 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/13 18:32:21 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:43:42 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ void	forks_destroy(pthread_mutex_t *forks, t_program *program)
 	while (i < program->num_philos)
 		pthread_mutex_destroy(&(forks[i++]));
 }
-
