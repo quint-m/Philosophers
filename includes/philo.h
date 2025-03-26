@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/19 14:24:02 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:44:57 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-typedef	enum s_state
+typedef enum s_state
 {
 	EATING,
 	SLEEPING,
@@ -28,23 +28,23 @@ typedef	enum s_state
 
 typedef struct s_philosopher
 {
-	int				p_num;
-	int				num_philos;
-	t_state			state;
-	int				start_time;
-	int				last_meal;
-	int				meal_count;
-	int				ttd;
-	int				tte;
-	int				tts;
-	int				*is_dead;
-	pthread_t		thread;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*log_mutex;
-	pthread_mutex_t	*eat_mutex;
-	pthread_mutex_t	*dead_mutex;
-	pthread_mutex_t	*sync_mutex;
+	int					p_num;
+	int					num_philos;
+	t_state				state;
+	int					start_time;
+	int					last_meal;
+	int					meal_count;
+	int					ttd;
+	int					tte;
+	int					tts;
+	int					*is_dead;
+	pthread_t			thread;
+	pthread_mutex_t		*l_fork;
+	pthread_mutex_t		*r_fork;
+	pthread_mutex_t		*log_mutex;
+	pthread_mutex_t		*eat_mutex;
+	pthread_mutex_t		*dead_mutex;
+	pthread_mutex_t		*sync_mutex;
 	struct s_program	*program;
 }	t_philosopher;
 
@@ -81,15 +81,16 @@ void	p_think(t_philosopher *philo);
 void	p_eat(t_philosopher *philo);
 void	*philosopher_routine(void *param);
 int		philosopher_check_dead(t_philosopher *philo);
-void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *program);
+void	philos_create(t_philosopher *philos, pthread_mutex_t *forks,
+			t_program *program);
 int		philosopher_count_meals(t_program *program);
 int		philosopher_has_starved(t_program *program);
 /**
  *
  * Utility
  */
-long 	ft_atol(char *s);
-int		get_time();
+long	ft_atol(char *s);
+int		get_time(void);
 void	info(t_philosopher *philo, char *msg);
 int		acc_usleep(size_t milliseconds);
 #endif
