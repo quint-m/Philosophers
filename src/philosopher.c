@@ -6,18 +6,19 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:28:19 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/25 18:38:19 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:04:48 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *program)
+void	philos_create(t_philosopher *philos, pthread_mutex_t *forks,
+	t_program *program)
 {
 	int	i;
 
-	i = 0;
-	while (i < program->num_philos)
+	i = -1;
+	while ((++i) < program->num_philos)
 	{
 		philos[i].p_num = i + 1;
 		philos[i].is_dead = &(program->died);
@@ -34,13 +35,10 @@ void	philos_create(t_philosopher *philos, pthread_mutex_t *forks, t_program *pro
 		philos[i].tts = program->time_to_sleep;
 		philos[i].l_fork = &forks[i];
 		philos[i].program = program;
-		if (i > 0)
+		if (i > 0 && program->num_philos > 1)
 			philos[i].r_fork = &forks[i - 1];
-		else
+		else if (program->num_philos > 1)
 			philos[i].r_fork = &forks[program->num_philos - i - 1];
-		if (program->num_philos == 1)
-			philos[i].r_fork = NULL;
-		i++;
 	}
 }
 
