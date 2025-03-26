@@ -5,36 +5,46 @@
 #                                                     +:+ +:+         +:+      #
 #    By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/13 15:13:28 by qmennen           #+#    #+#              #
-#    Updated: 2025/03/19 14:03:25 by qmennen          ###   ########.fr        #
+#    Created: 2025/03/26 15:38:37 by qmennen           #+#    #+#              #
+#    Updated: 2025/03/26 15:38:38 by qmennen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-VPATH=src/
-NAME=philo
+NAME		=	philo
+CC			=	cc
+CCFLAG		=	-Wall -Wextra -Werror
 
-CC=cc
-# FLAGS=-Wall -Wextra -Werror -Wundef -fsanitize=address
-FLAGS=-Werror -g
+HDR_DIR		=	./includes/
 
-INC=./inc
-SRCS=main.c philosopher.c util.c thread.c fork.c program.c routine.c
-OBJS=$(SRCS:.c=.o)
 
-all: $(NAME)
+SRC_DIR		=	./src/
+SRC_FILE	=	util.c thread.c routine.c program.c philosopher.c main.c fork.c
 
-$(NAME): $(OBJS)
-	$(CC) $(FLAGS) -I$(INC) -lpthread $^ -o $@
+SOURCES		=	$(addprefix $(SRC_DIR), $(SRC_FILE))
 
-%.o: %.c
-	$(CC) $(FLAGS) -I$(INC) -c $<
 
-clean:
-	@rm -f $(OBJS)
+OBJ_DIR		=	./obj/
+OBJ_FILE	=	$(patsubst %.c, %.o, $(SRC_FILE))
+OBJECTS		=	$(addprefix $(OBJ_DIR), $(OBJ_FILE))
 
-fclean: clean
-	@rm -f $(NAME)
 
-re: fclean all
+all			:	$(NAME)
 
-.PHONY: all clean fclean re
+$(NAME)		:	$(OBJ_DIR) $(OBJECTS)
+		$(CC) $(CCFLAG) $(OBJECTS) -o $(NAME) -I$(HDR_DIR)
+		@echo "\033[0;92m* $(NAME) program file was created\033[0m *"
+
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c
+		@$(CC) $(CCFLAGS) -c $< -o $@ -I$(HDR_DIR)
+
+clean		:
+		rm -rf $(OBJECTS)
+		@echo "\033[0;91m* $(NAME) object files was deleted *\033[0m"
+
+fclean		:	clean
+		rm -rf $(NAME)
+		@echo "\033[0;91m* $(NAME) was deleted *\033[0m"
+
+re			:	fclean $(NAME)
+
+.PHONY		:	all clean fclean re
