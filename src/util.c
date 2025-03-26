@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:31:27 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/19 14:30:38 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:55:31 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ int	validate_input(int argc, char **argv)
 
 	if (argc < 5)
 	{
-		printf("Usage: ./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]\n");
+		printf("Usage: ./philo <number_of_philosophers> <time_to_die>"
+			"<time_to_eat> <time_to_sleep>"
+			"[number_of_times_each_philosopher_must_eat]\n");
 		return (0);
 	}
-	i = 1;
-	while (argv[i])
+	i = 0;
+	while (argv[++i])
 	{
 		j = 0;
 		while (argv[i][j])
@@ -35,7 +37,6 @@ int	validate_input(int argc, char **argv)
 			}
 			j++;
 		}
-		i++;
 	}
 	return (1);
 }
@@ -59,13 +60,12 @@ long	ft_atol(char *s)
 /**
  * Get time in milliseconds
  */
-int	get_time()
+int	get_time(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) < 0)
 	{
-		//TODO:Handle it
 		printf("ERROR\n");
 	}
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
