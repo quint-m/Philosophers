@@ -17,7 +17,6 @@ void	*program_monitor(void *param)
 	t_program	*program;
 
 	program = (t_program *)param;
-	pthread_mutex_unlock(&(program->sync_mutex));
 	while (1)
 	{
 		if (philosopher_has_starved(program) || philosopher_count_meals(program))

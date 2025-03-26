@@ -63,7 +63,9 @@ void	*philosopher_routine(void *param)
 	philo = (t_philosopher*) param;
 	// Sync the start by creating a mutex on the program (start_mutex)
 	// Now before we enter routine, we lock and unlock this mutex (which wo't be possible because the program has locked it and only unlocks it when all threads have joined)
+	pthread_mutex_lock(philo->log_mutex);
 	philo->start_time = get_time();
+	pthread_mutex_unlock(philo->log_mutex);
 	if (philo->p_num % 2 == 0)
 		acc_usleep(1);
 	pthread_mutex_lock(philo->sync_mutex);
