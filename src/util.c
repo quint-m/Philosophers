@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:31:27 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/26 15:55:31 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 17:05:13 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	validate_input(int argc, char **argv)
 	int	i;
 	int	j;
 
-	if (argc < 5)
+	if (argc < 5 || argc > 6)
 	{
-		printf("Usage: ./philo <number_of_philosophers> <time_to_die>"
-			"<time_to_eat> <time_to_sleep>"
-			"[number_of_times_each_philosopher_must_eat]\n");
+		printf(RED"Usage: ./philo <number_of_philosophers> <time_to_die> "
+			"<time_to_eat> <time_to_sleep> "
+			"[number_of_times_each_philosopher_must_eat]\n"RESET);
 		return (0);
 	}
 	i = 0;
@@ -66,7 +66,7 @@ int	get_time(void)
 
 	if (gettimeofday(&tv, NULL) < 0)
 	{
-		printf("ERROR\n");
+		printf(RED"gettime error\n"RESET);
 	}
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
@@ -78,7 +78,8 @@ void	info(t_philosopher *philo, char *msg)
 	pthread_mutex_lock(philo->log_mutex);
 	time = get_time();
 	if (!philosopher_check_dead(philo))
-		printf("%i %i %s\n", (time - philo->start_time), philo->p_num, msg);
+		printf("%i %i %s\n", (time - philo->start_time),
+			philo->p_num, msg);
 	pthread_mutex_unlock(philo->log_mutex);
 }
 

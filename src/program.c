@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:56:37 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/26 15:50:48 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:54:37 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	*program_monitor(void *param)
 	return (0);
 }
 
-void	program_create(char **args, t_program *program)
+int	program_create(char **args, t_program *program)
 {
+	int	e;
+
+	e = 0;
 	program->num_philos = ft_atol(args[1]);
 	program->time_to_die = ft_atol(args[2]);
 	program->time_to_eat = ft_atol(args[3]);
@@ -37,10 +40,11 @@ void	program_create(char **args, t_program *program)
 		program->meal_count = ft_atol(args[5]);
 	else
 		program->meal_count = -1;
-	pthread_mutex_init(&(program->log_mutex), NULL);
-	pthread_mutex_init(&(program->eat_mutex), NULL);
-	pthread_mutex_init(&(program->dead_mutex), NULL);
-	pthread_mutex_init(&(program->sync_mutex), NULL);
+	e += pthread_mutex_init(&(program->log_mutex), NULL);
+	e += pthread_mutex_init(&(program->eat_mutex), NULL);
+	e += pthread_mutex_init(&(program->dead_mutex), NULL);
+	e += pthread_mutex_init(&(program->sync_mutex), NULL);
+	return (e);
 }
 
 void	program_destroy(t_program *program)

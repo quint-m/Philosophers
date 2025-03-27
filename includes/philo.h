@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:20:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/03/26 15:44:57 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:58:35 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>
+
+# define RED "\001\033[0;31m\002"
+# define RESET "\001\033[0m\002"
 
 typedef enum s_state
 {
@@ -65,13 +68,16 @@ typedef struct s_program
 }	t_program;
 
 void	*program_monitor(void *param);
-void	forks_create(pthread_mutex_t *forks, t_program *program);
 void	forks_destroy(pthread_mutex_t *forks, t_program *program);
-void	program_create(char **args, t_program *program);
 void	program_destroy(t_program *program);
-void	threads_create(t_philosopher *philos, t_program *program);
 void	threads_start(t_philosopher *philos, t_program *program);
 int		validate_input(int argc, char **argv);
+/**
+ * Initialization
+ */
+int		program_create(char **args, t_program *program);
+int		forks_create(pthread_mutex_t *forks, t_program *program);
+int		threads_create(t_philosopher *philos, t_program *program);
 /**
  *
  * Philosopher
