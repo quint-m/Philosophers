@@ -107,6 +107,7 @@ int	philosopher_has_starved(t_program *program)
 {
 	int				i;
 	int				diff;
+	t_philosopher	philo;
 
 	i = 0;
 	diff = 0;

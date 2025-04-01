@@ -35,16 +35,16 @@ $(NAME)		:	$(OBJ_DIR) $(OBJECTS)
 		@echo "\033[0;92m* $(NAME) program file was created\033[0m *"
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
-	@$(CC) $(CCFLAG) -c $< -o $@ -I$(HDR_DIR)
+		@$(CC) $(CCFLAGS) -c $< -o $@ -I$(HDR_DIR)
+
 clean		:
-		@rm -rf $(OBJECTS)
+		rm -rf $(OBJECTS)
 		@echo "\033[0;91m* $(NAME) object files was deleted *\033[0m"
 
 fclean		:	clean
-		@rm -rf $(NAME)
+		rm -rf $(NAME)
 		@echo "\033[0;91m* $(NAME) was deleted *\033[0m"
 
-re: fclean
-	@make all
+re			:	fclean $(NAME)
 
-.PHONY: all clean fclean re
+.PHONY		:	all clean fclean re
