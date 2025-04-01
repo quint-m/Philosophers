@@ -24,7 +24,6 @@ int	main(int argc, char **argv)
 	t_philosopher	philos[MAX_PHILO];
 	t_program		program;
 	pthread_mutex_t	forks[MAX_PHILO];
-	int				num_philos;
 	int				err;
 
 	err = 0;

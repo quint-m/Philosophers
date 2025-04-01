@@ -16,7 +16,6 @@ int	threads_create(t_philosopher *philos, t_program *program)
 {
 	int	i;
 	int	err;
-	int	t_result;
 
 	i = 0;
 	err = 0;
